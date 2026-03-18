@@ -23,4 +23,12 @@ jobs:
       - name: Make gradlew executable
         run:  chmod +x ./gradlew
       - name: Build & test and compute JaCoCo reports
-        run: ./gradlew build #jacocoTestReport
+        run: ./gradlew build jacocoTestReport
+
+      # Etape d'upload des résultats de tests avec Test Reporter
+      - name: Upload test results to GitHub with Test Reporter
+        uses: mikeal/test-reporter-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_url: ./build/reports/tests/test/index.html  # Chemin vers le rapport de test généré
+        continue-on-error: true
